@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+
+@theme {
+  /* Colors */
+  --color-primary: #13ec13;
+  --color-background-light: #fdfbf7;
+  --color-background-dark: #102210;
+  --color-sage: #618961;
+  --color-cream-soft: #f6f8f6;
+
+  /* Font */
+  --font-display: "Manrope", sans-serif;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  --animate-zoom-slow: zoom-slow 20s infinite alternate;
+
+  @keyframes zoom-slow {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Border Radius */
+  --radius-default: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+
+@layer base {
+  body {
+    font-family: var(--font-display);
+    background-color: var(--color-background-light);
+  }
+
+  .dark body {
+    background-color: var(--color-background-dark);
+  }
+}
+
+
+@layer components {
+  .glass-header {
+    background: rgba(253, 251, 247, 0.8);
+    backdrop-filter: blur(12px);
+  }
+
+  .dark .glass-header {
+    background: rgba(16, 34, 16, 0.8);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .dark .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+
+@layer utilities {
+
+  /* Colors */
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-background-light {
+    background-color: var(--color-background-light);
+  }
+
+  .bg-background-dark {
+    background-color: var(--color-background-dark);
+  }
+
+  .text-sage {
+    color: var(--color-sage);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .text-background-dark {
+    color: var(--color-background-dark);
+  }
+
+  .text-background-light {
+    color: var(--color-background-light);
+  }
+
+  .bg-cream-soft {
+    background-color: var(--color-cream-soft);
+  }
+
+  /* Font */
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* Radius */
+  .rounded-default {
+    border-radius: var(--radius-default);
+  }
+
+  .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+
+  .rounded-full {
+    border-radius: var(--radius-full);
+  }
+}
