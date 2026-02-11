@@ -7,7 +7,10 @@ use Inertia\Inertia;
 
 Route::controller(PublicController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
+    Route::post('/loginform', 'loginform')->name('loginform');
     Route::get('/signup', 'signup')->name('signup');
+    Route::post('/signupform', 'signupform')->name('signupform');
+
     
     Route::get('/', 'home')->name('home');
     Route::get('/store', 'store')->name('store');

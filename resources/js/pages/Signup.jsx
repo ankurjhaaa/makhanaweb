@@ -1,10 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { MdPerson, MdEmail, MdCall, MdLock, MdVisibility, MdVisibilityOff, MdArrowForward, MdCheckCircle, MdVerifiedUser, MdWorkspacePremium, MdSecurity } from 'react-icons/md';
 
 function Signup() {
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+    const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
         phone: '',
@@ -14,16 +14,13 @@ function Signup() {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        setData(name, type === 'checkbox' ? checked : value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle signup logic here
-        console.log('Signup:', formData);
+        post("signupform");
     };
 
     return (
@@ -109,7 +106,7 @@ function Signup() {
                                         placeholder="Enter your full name"
                                         type="text"
                                         name="name"
-                                        value={formData.name}
+                                        value={data.name}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -126,7 +123,7 @@ function Signup() {
                                         placeholder="name@example.com"
                                         type="email"
                                         name="email"
-                                        value={formData.email}
+                                        value={data.email}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -143,7 +140,7 @@ function Signup() {
                                         placeholder="+1 (555) 000-0000"
                                         type="tel"
                                         name="phone"
-                                        value={formData.phone}
+                                        value={data.phone}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -160,7 +157,7 @@ function Signup() {
                                         placeholder="••••••••"
                                         type={showPassword ? "text" : "password"}
                                         name="password"
-                                        value={formData.password}
+                                        value={data.password}
                                         onChange={handleChange}
                                     />
                                     <button
@@ -182,7 +179,7 @@ function Signup() {
                                         id="subscribe"
                                         type="checkbox"
                                         name="subscribe"
-                                        checked={formData.subscribe}
+                                        checked={data.subscribe}
                                         onChange={handleChange}
                                     />
                                 </div>

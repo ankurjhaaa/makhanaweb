@@ -1,10 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { MdVisibility, MdVisibilityOff, MdArrowForward } from 'react-icons/md';
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+    const { data, setData ,post} = useForm({
         email: '',
         password: '',
         remember: false,
@@ -12,7 +12,7 @@ function Login() {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
+        setData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
@@ -21,7 +21,8 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle login logic here
-        console.log('Login:', formData);
+        post('loginform');
+        
     };
 
     return (
@@ -80,7 +81,7 @@ function Login() {
                                     placeholder="e.g., hello@wellness.com"
                                     type="email"
                                     name="email"
-                                    value={formData.email}
+                                    value={data.email}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -97,7 +98,7 @@ function Login() {
                                         placeholder="••••••••"
                                         type={showPassword ? "text" : "password"}
                                         name="password"
-                                        value={formData.password}
+                                        value={data.password}
                                         onChange={handleChange}
                                     />
                                     <button
@@ -117,7 +118,7 @@ function Login() {
                                     id="remember"
                                     type="checkbox"
                                     name="remember"
-                                    checked={formData.remember}
+                                    checked={data.remember}
                                     onChange={handleChange}
                                 />
                                 <label className="text-sm text-sage dark:text-sage/60" htmlFor="remember">Remember this device</label>

@@ -1,57 +1,80 @@
-import { Link } from '@inertiajs/react';
-import { FiSearch, FiHeart, FiShoppingCart } from 'react-icons/fi';
-import { BiLeaf } from 'react-icons/bi';
+import { Link, usePage } from '@inertiajs/react';
+import { FiSearch, FiHeart, FiShoppingCart, FiUser } from 'react-icons/fi';
 
 export default function Navbar() {
+    const { auth } = usePage().props;
+    const user = auth?.user;
+
     return (
-        <header className="sticky top-0 z-50 glass-header border-b border-[#dbe6db]/30 px-6 lg:px-20 py-4">
-            <div className="max-w-full mx-auto flex items-center justify-between">
+        <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm px-6 lg:px-20 py-4">
+            <div className="flex items-center justify-between">
+
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-3">
-                    <div className="size-10 bg-primary rounded-lg flex items-center justify-center text-background-dark">
-                        <BiLeaf className="text-2xl font-bold" />
-                    </div>
-                    <h1 className="text-xl font-800 tracking-tight uppercase">Makhana</h1>
+                <Link href="/" className="flex items-center">
+                    <img
+                        src="/logo.jpeg"
+                        alt="Logo"
+                        className="h-10 object-contain"
+                    />
                 </Link>
 
                 {/* Navigation */}
-                <nav className="hidden md:flex items-center gap-10">
-                    <Link href="/store" className="text-sm font-semibold hover:text-primary transition-colors">
+                <nav className="hidden md:flex items-center gap-8">
+                    <Link href="/store" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
                         Store
                     </Link>
-                    <Link href="/about" className="text-sm font-semibold hover:text-primary transition-colors">
+                    <Link href="/about" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
                         About
                     </Link>
-                    <Link href="/reviews" className="text-sm font-semibold hover:text-primary transition-colors">
+                    <Link href="/reviews" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
                         Reviews
                     </Link>
-                    <Link href="/contact" className="text-sm font-semibold hover:text-primary transition-colors">
+                    <Link href="/contact" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">
                         Contact
                     </Link>
                 </nav>
 
-                {/* Right Side */}
+                {/* Right Section */}
                 <div className="flex items-center gap-4">
+
                     {/* Search */}
-                    <div className="hidden lg:flex gap-2 items-center bg-cream-soft dark:bg-white/10 rounded-full px-4 py-2 border border-[#dbe6db]">
-                        <FiSearch className="text-sage text-lg" />
+                    <div className="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <FiSearch className="text-gray-500 text-sm" />
                         <input
-                            className="bg-transparent outline-none border-none focus:ring-0 text-sm w-40 placeholder:text-sage/60"
-                            placeholder="Find your crunch..."
                             type="text"
+                            placeholder="Search products..."
+                            className="bg-transparent outline-none text-sm ml-2 w-40 placeholder:text-gray-400"
                         />
                     </div>
 
-                    {/* Favorites */}
-                    <button className="p-2 cursor-pointer hover:bg-primary/10 rounded-full transition-colors">
-                        <FiHeart className="text-xl" />
-                    </button>
+                    {user ? (
+                        <>
+                            {/* Wishlist */}
+                            <Link
+                                href="/wishlist"
+                                className="p-2 hover:bg-gray-100 rounded-full transition"
+                            >
+                                <FiHeart className="text-xl text-gray-700" />
+                            </Link>
 
-                    {/* Cart */}
-                    <button className="p-2 cursor-pointer bg-background-dark dark:bg-primary text-white dark:text-background-dark rounded-full transition-colors flex items-center gap-2 px-4">
-                        <FiShoppingCart className="text-lg text-white" />
-                        <span className="text-xs font-bold text-white">3</span>
-                    </button>
+                            {/* Cart */}
+                            <Link
+                                href="/cart"
+                                className="flex items-center gap-2 bg-primary text-black px-4 py-2 rounded-full font-semibold hover:opacity-90 transition"
+                            >
+                                <FiShoppingCart />
+                                <span className="text-sm font-bold">3</span>
+                            </Link>
+                        </>
+                    ) : (
+                        <Link
+                            href="/login"
+                            className="flex items-center gap-2 bg-primary text-black px-5 py-2 rounded-full font-semibold hover:opacity-90 transition"
+                        >
+                            <FiUser />
+                            Login
+                        </Link>
+                    )}
                 </div>
             </div>
         </header>
