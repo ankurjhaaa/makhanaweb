@@ -15,44 +15,7 @@ import {
   MdFitnessCenter,
 } from "react-icons/md";
 
-
-const products = [
-  {
-    id: 1,
-    title: "Plain",
-    price: "$12.00",
-    badge: "Classic",
-    badgeClass: "bg-background-light/90 text-background-dark",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCYH5aArai7jEK5D5_e5tgbrgISGbOGEqzxUPPpRqsEDUF-tzt2CNeDtwNiWk8McWCllny824j0J7omWf6SrgNg60etpJxcwGCz-jkZQFK182eij-qqcjzBQ57S1ELZIG2j-p7NIxiB3WQvdhQ-fb81diRkZf3dPMNbVgPUK9ton6Yi6i8fYkON9p6zU4HNHJtVmu_od4PLDAeL2msDbGy0dbOipIgPcbS8auHjUOaIRsl1cziLQBT9Qha7zIhPs4d8s0yWQ3_AoY8",
-    description:
-      "The Classic Purity. Raw, unadulterated goodness from the Himalayan foothills.",
-  },
-  {
-    id: 2,
-    title: "Roasted",
-    price: "$14.50",
-    badge: "Bestseller",
-    badgeClass: "bg-primary text-background-dark",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA_o7UMv37g_1SHXOo7I5RYEBJ2fAaogE09cxZ9SvBzBQPzniiNTty6QrBRG0YouLVo5RdxCxUiSDF8R06exxh6CzKcY-m3OLDBrucxvW3tedKNf-3zdbNc_Gmjok9fnJtGnndhZWywFFjrEIDVHHV_LvGSpP0atusDtYFn_p4cnAaCMgPBkAC7GuKRHFH4ldtBpo_XG8FxJoIclkfNIfca1Ggs43Ks6oqo7b_bNSxPDU11AWH1ceyM_Abn-NmigwNgm4dAueFmBKU",
-    description:
-      "Slow-roasted perfection. Lightly tossed in olive oil for that extra satisfying crunch.",
-  },
-  {
-    id: 3,
-    title: "Masala",
-    price: "$15.00",
-    badge: "Spicy",
-    badgeClass: "bg-background-light/90 text-background-dark",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBwwV2I3ijl219Uy5g4Q3uI_3REBQeZfgNfQ6w9sYp8aWH2AmhkYxnUDFs2D_iJL4yKXcls9Y9x0DO2rHmbo5WnkVw6KkVkhdBfLOSHpjB5i6ed09xYF5b-NNM29YEvhN41vjQzJW9I8mmgIQ2SmJ7ltOzbmc3kajdCEaPN7VZYC_SPcAv2WY5qL6owoJT9JGzEOv88xY7i8lFMr5L31rCkb7IqlPorHVNlyZh43OlWFfE7clfOWNDkzFU9nQp_kVIUTy-BHA9wf5E",
-    description:
-      "A burst of spice in every bite. Infused with 12 traditional Indian spices for ultimate flavor.",
-  },
-];
-
-export default function Home() {
+export default function Home({ products }) {
   return (
     <>
       <Head title="Home" />
@@ -64,7 +27,7 @@ export default function Home() {
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-black/60 z-10" /> {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-black/30 z-10" />
+            <div className="absolute inset-0 bg-linear-to-t from-background-dark via-transparent to-black/30 z-10" />
             <img
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuChUSYWlAVAs_0Sf8W4xLFw8IPUF1BlNXE96iU_YrH31j4OV79TWhGakYpUmdowRlR6WSTj7l2lXkHPuBcTFOyDEIsOF9I-JjLJeHl8sIfZpiXap3zT3IXEODRqcOueAY-fDEELMIEWIgPjSOfO6Hek-WMEXJZk_meke2PZW9b5XhK3wQ5U7ww945BGHrIU3zgaWKdAo5KDdY9DRrkYR5ajfIwUS0AXpc0obzDU9aE1qB-JgLl0KggObTqwhmQnUipMkmNe2u98Y_c"
               alt="Background"
@@ -86,7 +49,7 @@ export default function Home() {
             {/* Headline */}
             <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white mb-6 md:mb-8 leading-[0.9] drop-shadow-lg">
               Pure <br className="md:hidden" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-400">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-green-400">
                 Makhana
               </span>
             </h1>
@@ -156,7 +119,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           </section>
@@ -212,27 +175,43 @@ function Benefit({ icon, title, text }) {
   );
 }
 
-function ProductCard({ title, price, badge, badgeClass, image, description }) {
+function ProductCard({ product }) {
+  const price = product.variants?.[0]?.price ?? "--";
+  const image =
+    product.primary_image?.image ??
+    "https://via.placeholder.com/400x400?text=Makhana";
+
   return (
     <div className="group glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+      {/* IMAGE */}
       <div className="h-72 overflow-hidden relative">
         <img
           src={image}
-          alt={title}
+          alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div
-          className={`absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${badgeClass}`}
-        >
-          {badge}
+
+        {/* BADGE = FLAVOUR */}
+        <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter bg-background-light/90 text-background-dark">
+          {product.category_slug.replace("-", " ")}
         </div>
       </div>
 
+      {/* CONTENT */}
       <div className="p-8">
-        <h3 className="text-2xl font-bold mb-2">{title}</h3>
-        <p className="text-sage dark:text-sage mb-6">{description}</p>
+        <h3 className="text-2xl font-bold mb-2">
+          {product.name}
+        </h3>
+
+        <p className="text-sage dark:text-sage mb-6">
+          {product.description}
+        </p>
+
         <div className="flex items-center justify-between">
-          <span className="text-xl font-extrabold">{price}</span>
+          <span className="text-xl font-extrabold">
+            ₹{price}
+          </span>
+
           <button className="bg-background-dark dark:bg-primary dark:text-background-dark text-background-light p-3 rounded-xl flex items-center justify-center hover:bg-primary transition-colors">
             <FiShoppingCart />
           </button>
